@@ -161,12 +161,13 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 100, 0, 50)
-toggleButton.Position = UDim2.new(0.5, 0, 0, 0)
+toggleButton.Size = UDim2.new(0, 100, 0, 50) -- Điều chỉnh kích thước của nút
+toggleButton.Position = UDim2.new(0.5, -50, 0.5, -25) -- Điều chỉnh vị trí của nút
 toggleButton.Text = "Teleport Disabled"
 toggleButton.BackgroundColor3 = Color3.new(1, 0, 0)
 toggleButton.TextColor3 = Color3.new(1, 1, 1)
 toggleButton.Parent = screenGui
+
 
 -- Toggle teleportation when button is clicked
 toggleButton.MouseButton1Click:Connect(function()
