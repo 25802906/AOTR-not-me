@@ -153,35 +153,12 @@ local function toggleTeleportation()
     end
 end
 
--- Tạo một GUI để bật/tắt dịch chuyển
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 100, 0, 50) -- Điều chỉnh kích thước của nút
-toggleButton.Position = UDim2.new(0.5, -50, 0, 0) -- Điều chỉnh vị trí của nút để nó ở giữa theo chiều ngang
-toggleButton.Text = "Teleport Disabled"
-toggleButton.BackgroundColor3 = Color3.new(1, 0, 0)
-toggleButton.TextColor3 = Color3.new(1, 1, 1)
-toggleButton.Parent = screenGui
-
-
--- Toggle teleportation when button is clicked
-toggleButton.MouseButton1Click:Connect(function()
-    toggleTeleportation()
-    toggleButton.Text = isTeleportEnabled and "Teleport Enabled" or "Teleport Disabled"
-    toggleButton.BackgroundColor3 = isTeleportEnabled and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
-end)
-
 UserInputService.InputEnded:Connect(function(input)
     if (input.KeyCode == Enum.KeyCode.Z) then
         toggleTeleportation()
-        toggleButton.Text = isTeleportEnabled and "Teleport Enabled" or "Teleport Disabled"
-        toggleButton.BackgroundColor3 = isTeleportEnabled and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
     end
 end)
 
--- Connect the function to the UserInputService's InputEnded event
 UserInputService.InputEnded:Connect(function(input)
     if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and isTeleportEnabled then
         performConsecutiveTeleports()
