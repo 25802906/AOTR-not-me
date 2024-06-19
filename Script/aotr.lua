@@ -8,9 +8,6 @@ local nape
 local isTeleportEnabled = false
 local MAX_TELEPORT_DISTANCE = math.huge
 
-local ESPEnabled = false -- Boolean to control the visibility of ESP parts
-local espParts = {} -- Table to store references to the ESP parts
-
 -- Function to get the LocalPlayer's HumanoidRootPart location
 local function getLocalPlayerHumanoidRootPartLocation()
     local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
@@ -156,13 +153,13 @@ local function toggleTeleportation()
     end
 end
 
--- Create a GUI to toggle teleportation
+-- Tạo một GUI để bật/tắt dịch chuyển
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 100, 0, 50) -- Điều chỉnh kích thước của nút
-toggleButton.Position = UDim2.new(0.5, -50, 0.5, -25) -- Điều chỉnh vị trí của nút
+toggleButton.Position = UDim2.new(0.5, -50, 0, 0) -- Điều chỉnh vị trí của nút để nó ở giữa theo chiều ngang
 toggleButton.Text = "Teleport Disabled"
 toggleButton.BackgroundColor3 = Color3.new(1, 0, 0)
 toggleButton.TextColor3 = Color3.new(1, 1, 1)
@@ -190,110 +187,3 @@ UserInputService.InputEnded:Connect(function(input)
         performConsecutiveTeleports()
     end
 end)
-
-
-
---ESP ESP ESP ESP
---ESP ESP ESP ESP
---ESP ESP ESP ESP
--- Function to create a diamond-shaped ESP part
-local function createDiamondESP(part, color, transparency)
-    local espGui = Instance.new("BillboardGui")
-    espGui.Adornee = part
-    espGui.AlwaysOnTop = true
-    espGui.Size = UDim2.new(3, 0, 8, 0)
-    espGui.StudsOffset = Vector3.new(0, 35, 0)
-    espGui.Parent = part
-
-    -- Create a diamond shape using a rotated frame
-    local diamond = Instance.new("Frame")
-    diamond.Size = UDim2.new(0, 14, 0, 14)
-    diamond.BackgroundTransparency = ESPEnabled and 0.15 or 1
-    diamond.BackgroundColor3 = Color3.new(0, 0, 0) -- Black center
-    diamond.BorderSizePixel = 2.5
-    diamond.BorderColor3 = color or Color3.new(1, 1, 1) -- White outline
-    diamond.AnchorPoint = Vector2.new(0.5, 0.5)
-    diamond.Position = UDim2.new(0.5, 0, 0.5, 0)
-    diamond.Rotation = 45 -- Rotate the frame to make it a diamond shape
-    diamond.Parent = espGui
-
-    table.insert(espParts, diamond) -- Store reference for toggling
-end
-
--- Function to create a box-shaped ESP part
-local function createBoxESP(part, color, transparency)
-    local espPart = Instance.new("BoxHandleAdornment")
-    espPart.Size = part.Size
-    espPart.Adornee = part
-    espPart.AlwaysOnTop = true
-    espPart.ZIndex = 5
-    espPart.Transparency = ESPEnabled and 0.8 or 1 -- Adjust transparency based on ESPEnabled
-    espPart.Color3 = color or Color3.new(1, 1, 1) -- Default to white color
-    espPart.Parent = part
-    table.insert(espParts, espPart) -- Store reference for toggling
-end
-
-local function highlightPartsInFakeModel(fakeModel)
-    local part = fakeModel:FindFirstChild("Head")
-    if part and part:IsA("BasePart") then
-        createDiamondESP(part, Color3.new(1, 1, 1), 0.65)
-    end
-    
-    local partsToHighlight = {
-        "LowerTorso", "LeftUpperArm", "RightUpperLeg", "LeftLowerLeg", "LeftUpperLeg",
-        "RightLowerLeg", "LeftFoot", "RightLowerArm", "UpperTorso", "LeftLowerArm",
-        "RightUpperArm", "LeftHand", "RightFoot", "RightHand", "Head"
-    }
-    
-    for _, partName in ipairs(partsToHighlight) do
-        local part = fakeModel:FindFirstChild(partName)
-        if part and part:IsA("BasePart") then
-            createBoxESP(part, Color3.new(1, 1, 1), 0.65)
-        end
-    end
-end
-
-local function highlightModelsInTitansFolder()
-    local titansFolder = Workspace:FindFirstChild("Titans")
-    if titansFolder then
-        for _, model in ipairs(titansFolder:GetChildren()) do
-            if model:IsA("Model") and model:FindFirstChildOfClass("Humanoid") then
-                local fakeModel = model:FindFirstChild("Fake")
-                if fakeModel then
-                    highlightPartsInFakeModel(fakeModel)
-                end
-            end
-        end
-    else
-        warn("Titans folder not found in Workspace.")
-    end
-end
-
--- GUI for toggling ESP
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-local toggleButton2 = Instance.new("TextButton")
-toggleButton2.Size = UDim2.new(0, 100, 0, 50)
-toggleButton2.Position = UDim2.new(0.43, 0, 0, 0)
-toggleButton2.Text = "Toggle ESP"
-toggleButton2.BackgroundColor3 = Color3.new(0, 0, 0)
-toggleButton2.TextColor3 = Color3.new(1, 1, 1)
-toggleButton2.Parent = screenGui
-
--- Function to toggle ESP visibility
-local function toggleESP()
-    ESPEnabled = not ESPEnabled
-    for _, espPart in ipairs(espParts) do
-        if espPart:IsA("Frame") then
-            espPart.BackgroundTransparency = ESPEnabled and 0.15 or 1
-        else
-            espPart.Transparency = ESPEnabled and 0.8 or 1
-        end
-    end
-end
-
-toggleButton2.MouseButton1Click:Connect(toggleESP)
-
--- Highlight the models initially
-highlightModelsInTitansFolder()
