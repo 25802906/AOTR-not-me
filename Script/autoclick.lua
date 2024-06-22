@@ -30,11 +30,11 @@ end
 
 -- Create GUI
 local Text = Draw("Text", {
-    Size = 18,
+    Size = 13,
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (1160, 796)", -- Auto Clicking and Mouse Locked are TRUE by default
+    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (kagari1314)", -- Auto Clicking and Mouse Locked are TRUE by default
     Visible = true,
 })
 
