@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 -- Vars
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-local flags = {Auto_Clicking = true, Mouse_Locked = false} -- Auto_Clicking is true by default
+local flags = {Auto_Clicking = true, Mouse_Locked = true} -- Auto_Clicking and Mouse_Locked are true by default
 local TaskWait = task.wait
 local LockedPosition = Vector2.new(1160, 796) -- Locked position
 
@@ -30,11 +30,11 @@ end
 
 -- Create GUI
 local Text = Draw("Text", {
-    Size = 10,
+    Size = 18,
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : TRUE\nMouse Locked : FALSE\nPosition: N/A", -- Auto Clicking is TRUE by default
+    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (1160, 796)", -- Auto Clicking and Mouse Locked are TRUE by default
     Visible = true,
 })
 
