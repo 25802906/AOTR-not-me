@@ -10,8 +10,9 @@ local RunService = game:GetService("RunService")
 -- Vars
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-local flags = {Auto_Clicking = true, Mouse_Locked = true, Mouse_Locked_Position = Vector2.new(1160, 796)}  -- Auto-click enabled by default
+local flags = {Auto_Clicking = true, Mouse_Locked = false} -- Auto_Clicking is true by default
 local TaskWait = task.wait
+local LockedPosition = Vector2.new(1160, 796) -- Locked position
 
 -- Get Keybind
 local getKeycode = function(bind)
@@ -33,7 +34,7 @@ local Text = Draw("Text", {
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (kagari1314)",  -- Auto-click enabled by default
+    Text = "Auto Clicking : TRUE\nMouse Locked : FALSE\nPosition: N/A", -- Auto Clicking is TRUE by default
     Visible = true,
 })
 
@@ -45,13 +46,13 @@ UIS.InputBegan:Connect(function(inputObj, GPE)
         end
         
         if (inputObj.KeyCode == getKeycode(Settings["Lock Mouse Position Keybind"])) then
-            flags.Mouse_Locked = true  -- Always keep mouse lock enabled
+            flags.Mouse_Locked = not flags.Mouse_Locked
         end
 
         Text.Text = ("Auto Clicking : %s\nMouse Locked : %s\nPosition: %s"):format(
             tostring(flags.Auto_Clicking):upper(), 
             tostring(flags.Mouse_Locked):upper(), 
-            flags.Mouse_Locked and string.format("(%d, %d)", flags.Mouse_Locked_Position.X, flags.Mouse_Locked_Position.Y) or "N/A"
+            flags.Mouse_Locked and string.format("(%d, %d)", LockedPosition.X, LockedPosition.Y) or "N/A"
         )
     end
 end)
@@ -63,7 +64,12 @@ while (true) do
 
     if (flags.Auto_Clicking) then
         for i = 1, 2 do
-            VIM:SendMouseButtonEvent(flags.Mouse_Locked_Position.X, flags.Mouse_Locked_Position.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
+            if (flags.Mouse_Locked) then
+                VIM:SendMouseButtonEvent(LockedPosition.X, LockedPosition.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
+            else
+                local Mouse = UIS:GetMouseLocation()
+                VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
+            end
         end
     end
 
