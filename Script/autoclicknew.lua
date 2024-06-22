@@ -33,7 +33,7 @@ local Text = Draw("Text", {
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : TRUE\nPosition: (dynamic)",  -- Auto-click enabled by default
+    Text = "Auto Clicking : TRUE",  -- Auto-click enabled by default
     Visible = true,
 })
 
@@ -44,7 +44,7 @@ UIS.InputBegan:Connect(function(inputObj, GPE)
             flags.Auto_Clicking = not flags.Auto_Clicking
         end
 
-        Text.Text = ("Auto Clicking : %s\nPosition: dynamic"):format(
+        Text.Text = ("Auto Clicking : %s"):format(
             tostring(flags.Auto_Clicking):upper()
         )
     end
@@ -56,9 +56,10 @@ while (true) do
     Text.Position = Vector2.new(Camera.ViewportSize.X - 133, Camera.ViewportSize.Y - 48)
 
     if (flags.Auto_Clicking) then
-        local mousePos = UIS:GetMouseLocation()
+        local randomX = math.random(0, Camera.ViewportSize.X)
+        local randomY = math.random(0, Camera.ViewportSize.Y)
         for i = 1, 2 do
-            VIM:SendMouseButtonEvent(mousePos.X, mousePos.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
+            VIM:SendMouseButtonEvent(randomX, randomY, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
         end
     end
 
