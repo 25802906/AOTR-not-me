@@ -1,5 +1,4 @@
-wait(5)
-
+wait(8)
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Workspace = game:GetService("Workspace")
