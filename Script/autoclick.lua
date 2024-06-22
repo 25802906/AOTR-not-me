@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 -- Vars
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-local flags = {Auto_Clicking = false, Mouse_Locked = false}
+local flags = {Auto_Clicking = false, Mouse_Locked = true, Mouse_Locked_Position = Vector2.new(1162, 846)}  -- Set default mouse lock position
 local TaskWait = task.wait
 
 -- Get Keybind
@@ -33,7 +33,7 @@ local Text = Draw("Text", {
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : FALSE\nMouse Locked : FALSE\nPosition: N/A",
+    Text = "Auto Clicking : FALSE\nMouse Locked : TRUE\nPosition: (1160, 796)",  -- Set default text
     Visible = true,
 })
 
@@ -45,9 +45,7 @@ UIS.InputBegan:Connect(function(inputObj, GPE)
         end
         
         if (inputObj.KeyCode == getKeycode(Settings["Lock Mouse Position Keybind"])) then
-            local Mouse = UIS:GetMouseLocation()
-            flags.Mouse_Locked_Position = Vector2.new(Mouse.X, Mouse.Y)
-            flags.Mouse_Locked = not flags.Mouse_Locked
+            flags.Mouse_Locked = true  -- Always keep mouse lock enabled
         end
 
         Text.Text = ("Auto Clicking : %s\nMouse Locked : %s\nPosition: %s"):format(
@@ -65,12 +63,7 @@ while (true) do
 
     if (flags.Auto_Clicking) then
         for i = 1, 2 do
-            if (flags.Mouse_Locked) then
-                VIM:SendMouseButtonEvent(flags.Mouse_Locked_Position.X, flags.Mouse_Locked_Position.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
-            else
-                local Mouse = UIS:GetMouseLocation()
-                VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
-            end
+            VIM:SendMouseButtonEvent(flags.Mouse_Locked_Position.X, flags.Mouse_Locked_Position.Y, Settings["Right Click"] and 1 or 0, i == 1, nil, 0)
         end
     end
 
