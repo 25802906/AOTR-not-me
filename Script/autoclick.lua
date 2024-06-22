@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 -- Vars
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-local flags = {Auto_Clicking = true, Mouse_Locked = true, Mouse_Locked_Position = Vector2.new(1162, 846)}  -- Auto-click enabled by default
+local flags = {Auto_Clicking = true, Mouse_Locked = true, Mouse_Locked_Position = Vector2.new(1160, 796)}  -- Auto-click enabled by default
 local TaskWait = task.wait
 
 -- Get Keybind
@@ -33,7 +33,7 @@ local Text = Draw("Text", {
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
-    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (1160, 796)",  -- Auto-click enabled by default
+    Text = "Auto Clicking : TRUE\nMouse Locked : TRUE\nPosition: (kagari1314)",  -- Auto-click enabled by default
     Visible = true,
 })
 
