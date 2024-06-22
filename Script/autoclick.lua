@@ -29,7 +29,7 @@ end
 
 -- Create GUI
 local Text = Draw("Text", {
-    Size = 18,
+    Size = 10,
     Outline = true,
     OutlineColor = Color3.fromRGB(255, 255, 255),
     Color = Color3.fromRGB(0, 0, 0),
@@ -61,11 +61,7 @@ end)
 -- Auto Click
 while (true) do
     Text.Visible = Settings.GUI
-
-    -- Điều chỉnh vị trí của GUI ở đây
-    local offsetX = 50  -- Giá trị tùy chỉnh theo ý bạn
-    local offsetY = 50  -- Giá trị tùy chỉnh theo ý bạn
-    Text.Position = Vector2.new(Camera.ViewportSize.X - offsetX, Camera.ViewportSize.Y - offsetY)
+    Text.Position = Vector2.new(Camera.ViewportSize.X - 133, Camera.ViewportSize.Y - 48)
 
     if (flags.Auto_Clicking) then
         for i = 1, 2 do
